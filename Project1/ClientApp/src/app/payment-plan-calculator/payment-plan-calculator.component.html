@@ -1,0 +1,49 @@
+<h1 id="tableLabel">Payment plan calculator</h1>
+
+<form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+  <div id="loan-data">
+    <div class="form-group">
+      <label>Amount: </label>
+      <input type="number" id="amount" formControlName="amount" class="form-control" />
+      <span *ngIf="!loanForm.get('amount').valid && loanForm.get('amount').touched">Please enter a valid amount!</span>
+    </div>
+    <div class="form-group">
+      <label>Term (in years) : </label>
+      <input type="number" id="term" formControlName="term" class="form-control" />
+      <span *ngIf="!loanForm.get('term').valid && loanForm.get('term').touched">Please enter a valid term!</span>
+    </div>
+    <div class="radio" *ngFor="let loanType of loanTypes">
+      <label>
+        <input type="radio" formControlName="loanType" [value]="loanType" /> {{ loanType }}
+      </label>
+    </div>
+    <div>
+      <button class="btn-primary btn-primary" type="submit" [disabled]="!loanForm.valid">Calculate</button>
+      <br>
+      <span *ngIf="!loanForm.valid && loanForm.touched">Please enter valid data!</span>
+    </div>
+  </div>
+</form>
+
+<br>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="formSubmitted">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Total</th>
+      <th>Interest</th>
+      <th>Principal</th>
+      <th>Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let payment of paymentPlan">
+      <td>{{ payment.date }}</td>
+      <td>{{ payment.total }}</td>
+      <td>{{ payment.interest }}</td>
+      <td>{{ payment.principal }}</td>
+      <td>{{ payment.balance }}</td>
+    </tr>
+  </tbody>
+</table>
